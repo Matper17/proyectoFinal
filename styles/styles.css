@@ -1,0 +1,23 @@
+a{
+    cursor: pointer;
+}
+body{
+    overflow-x: hidden;
+}
+.container-xl{
+    gap: 2rem;
+}
+.modalContenedor{
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+}
+.imgCarrito{
+    width: 200px;
+    padding: 20px;
+}
+.parrafo{
+    font-weight: 750;
+    font-family: sans-serif;
+    color: black;
+}
