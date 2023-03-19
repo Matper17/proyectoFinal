@@ -121,7 +121,7 @@ const productos = [
         marca: "G-fitness", 
         peso: "2kg", 
         precio: 6000,
-        img: "/Images/trx.jfif",
+        img: "/Images/trx2.jfif",
         categoria:{
             titulo: "TRX",
             id: "productos"
@@ -137,7 +137,7 @@ const productos = [
         marca: "G-fitness", 
         peso: "", 
         precio: 17000,
-        img: "/Images/kitBodyPump.jfif",
+        img: "/Images/kitBodyPump2.jfif",
         categoria:{
             titulo: "Kit body pump",
             id: "productos"
@@ -181,7 +181,7 @@ const productos = [
         tipo: "Rutina mensual",
         desc: "Cardio",
         precio: 4000,
-        img: "/Images/resistenciaAerobica.jfif",
+        img: "/Images/running.jfif",
         categoria:{
             titulo: "Plan de resistencia",
             id: "servicios"
@@ -201,6 +201,34 @@ const productos = [
             id: "servicios"
         },
         cantidad: 1
+    },
+
+    {
+        id: 14,
+        nombre: "'Cross-training'", 
+        tipo: "Rutina mensual", 
+        desc: "Preparación física general",
+        precio: 4000,
+        img: "/Images/crossT.jfif",
+        categoria:{
+            titulo: "Preparación general",
+            id: "servicios"
+        },
+        cantidad: 1
+    },
+
+    {
+        id: 15,
+        nombre: "'Trekking'", 
+        tipo: "Rutina mensual", 
+        desc: "Preparación física general",
+        precio: 4000,
+        img: "/Images/trekking.jfif",
+        categoria:{
+            titulo: "Preparación general",
+            id: "servicios"
+        },
+        cantidad: 1
     }
 
 ]
@@ -209,7 +237,7 @@ let carrito = []
 
 const contenedor = document.querySelector("#contenedor")
 const carritoContenedor = document.querySelector("#carritoContenedor")
-const vaciarCarrito = document.querySelector ("#vaciarCarrito")
+const vaciarCarrito = document.querySelector("#vaciarCarrito")
 const precioTotal = document.querySelector("#precioTotal")
 const procesarCompra = document.querySelector("#procesarCompra")
 const activarFuncion = document.querySelector("#activarFuncion")
@@ -217,138 +245,146 @@ const totalProceso = document.querySelector("#totalProceso")
 const formulario = document.querySelector("#procesar-pago")
 
 if(activarFuncion){
-activarFuncion.addEventListener("click", procesarCompra)
+    activarFuncion.addEventListener("click", finalizarCompra)
+}
+if(formulario){
+    formulario.addEventListener("submit", enviarCompra)
 }
 
 document.addEventListener("DOMContentLoaded", () =>{
     carrito = JSON.parse(localStorage.getItem("carrito")) || []
-    carritoDeProductos()
-
-    document.querySelector("#activarFuncion").click(procesarCompra)
+    verCarrito()
+    if(activarFuncion){
+    document.querySelector("#activarFuncion").click(finalizarCompra)
+    }
 })
 
-productos.forEach((element) => {
-    const {id, nombre, tipo, desc, precio, img, categoria, cantidad} = element
-    
-    if(contenedor){
-    contenedor.innerHTML += `
-    <div class="card" style="width: 15rem;">
-    <img src="${img}" class="card-img-top mt 2" alt="Card image cap">
-    <div class="card-body">
-      <h5 class="card-title">${nombre}</h5>
-      <p class="card-text">$${precio}</p>
-      <p class="card-text">${desc}</p>
-      <p class="card-text">Cantidad ${cantidad}</p>
-      <button onclick="agregarProductos(${id})" class="btn btn-primary">Añadir al carrito</button>
-    </div>
-  </div>
+productos.forEach((element) =>{
+    const {id, nombre, precio, img, cantidad} = element
+    contenedor.innerHTML +=`
+        <div class="card" style="width: 15rem;">
+             <img src="${img}" class="card-img-top mt-2" alt="Card image cap">
+             <div class="card-body">
+                 <h5 class="card-title">${nombre}</h5>
+                 <p class="card-text">$${precio}</p>
+                 <p class="card-text">Cantidad ${cantidad}</p>
+                 <button onclick= "añadirProducto(${id})" class="btn btn-primary"> Añadir al carrito </button>
+             </div>
+        </div>
     `
-}
-});
+})
 
 if(procesarCompra){
 procesarCompra.addEventListener("click", () =>{
     if(carrito.length === 0){
-        Swal.fire({
-            title: "¡El carrito esta vacío!",
-            text: "Para continuar, selecciona un producto",
-            icon: "error",
+        swal.fire({
+            title: "¡Tu carrito está vacío!",
+            text: "Selecciona un producto para continuar la compra",
+            icon: "error", 
             confirmButtonText: "Aceptar",
-        })
-    } else {
-        location.href ="compra.html"
+        }) 
+    } else{
+        location.href = "compra.html"
+        finalizarCompra()
     }
 })
 }
 
 if(vaciarCarrito){
-vaciarCarrito.addEventListener("click", () => {
+vaciarCarrito.addEventListener ("click", () =>{
     carrito.length = []
-    carritoDeProductos()
+    verCarrito()
 })
 }
-function agregarProductos (id){
-    const exist = carrito.some(element => element.id === id)
-    if(exist){
+
+function añadirProducto(id){
+    const existe = carrito.some(element => element.id === id)
+    if (existe){
         const element = carrito.map(element => {
             if(element.id === id){
                 element.cantidad++
             }
         })
-    }else{
+    } else{
         const item = productos.find((element) => element.id === id)
         carrito.push(item)
     }
+    
+    verCarrito()
 
-    carritoDeProductos()
 }
 
-const carritoDeProductos = () =>{
+const verCarrito = () => {
     const modalBody = document.querySelector(".modal .modal-body")
+    
     if(modalBody){
-    modalBody.innerHTML = "";
-    carrito.forEach((element) =>{
-        const {id, nombre, tipo, desc, precio, img, categoria, cantidad} = element
-        modalBody.innerHTML += `
-        <div class="modalContenedor">
-        <div>
-        <img class="img-fluid imgCarrito" src="${img}"/>
-        </div>
-        <div>
-        <p> ${nombre} </p>
-        <p> $${precio} </p>
-        <p> Cantidad ${cantidad} </p>
 
-        <button onclick="eliminarProducto(${id})" class="btn btn-danger">Quitar producto</button>
+    modalBody.innerHTML = "" //Esto evita que se repitan los productos en el modal del carrito
+    carrito.forEach((element) => {
+        const {id, nombre, precio, img, cantidad} = element
+        modalBody.innerHTML +=`
+        <div class="modal-contenedor">
+            <div>
+                <img class="img-fluid img-carrito" src="${img}"/>
+            </div>
+            <div>
+                <p>Producto: ${nombre}</p>
+                <p>Precio: $${precio}</p>
+                <p>Cantidad: ${cantidad}</p>
+                <button onClick="quitarProducto (${id})" class="btn btn-danger"> Quitar producto </button>
+            </div>
         </div>
-        <div></div>
-        <div></div>
         `
     })
- }
-    if(carrito.length === 0){
+}
+    if (carrito.length === 0){
         modalBody.innerHTML = `
-        <p class="text-center text-primary parrafo>¡Llevate algo al carrito!</p>
+        <p class="text-center text-primary parrafo"> ¡Tu carrito está vacío! </p>
         `
-    }else{
+    } 
 
-    }
+    carritoContenedor.textContent = carrito.length
 
     if(precioTotal){
-    // carritoContenedor.textContent = carrito.length
     precioTotal.innerText = carrito.reduce((acc, element) => acc + element.cantidad * element.precio, 0)
     }
-    guardarEnStorage()
+    saveStorage()
 }
 
-function eliminarProducto(id){
+function quitarProducto(id){
     const productoId = id
     carrito = carrito.filter((producto) => producto.id !== productoId)
-    carritoDeProductos()
+    verCarrito()
 }
 
-function guardarEnStorage(){
+function saveStorage(){
     localStorage.setItem("carrito", JSON.stringify(carrito))
 }
 
-
-function procesarCompra(){
+function finalizarCompra(){
     carrito.forEach((element) =>{
-        const listaCompra = document.querySelector("#lista-compra tbody")
+        const listaCompra = document.querySelector("#lista-compra")
         const {id, nombre, precio, cantidad, img} = element
 
-        const row = document.createElement("tr")
-        row.innerHTML +=`
-        <td>
+        const tr = document.createElement("row")
+        
+        tr.innerHTML +=`
+        <th>
         <img class="img-fluid img-carrito" src="${img}"/>
-        </td>
-        <td>${nombre}</td>
-        <td>${precio}</td>
-        <td>${cantidad}</td>
-        <td>${precio * cantidad}</td>
+        </th>
+        <th>${nombre}</th>
+        <th>$${precio}</th>
+        <th>${cantidad}</th>
+        <th>${precio * cantidad}</th>
         `
-        listaCompra.appendChild(row)
+        listaCompra.appendChild("row")
     })
 
     totalProceso.innerText = carrito.reduce((acc, element) => acc + element.cantidad * element.precio, 0)
+}
+
+function enviarCompra (e){
+    e.preventDefault()
+    const cliente = document.querySelector("#cliente").value
+    const correo = document.querySelector("#correo").value
 }
