@@ -247,10 +247,6 @@ const formulario = document.querySelector("#procesar-pago")
 if(activarFuncion){
     activarFuncion.addEventListener("click", finalizarCompra)
 }
-if(formulario){
-    formulario.addEventListener("submit", enviarCompra)
-}
-
 document.addEventListener("DOMContentLoaded", () =>{
     carrito = JSON.parse(localStorage.getItem("carrito")) || []
     verCarrito()
@@ -272,30 +268,8 @@ productos.forEach((element) =>{
              </div>
         </div>
     `
-})
-
-if(procesarCompra){
-procesarCompra.addEventListener("click", () =>{
-    if(carrito.length === 0){
-        swal.fire({
-            title: "¡Tu carrito está vacío!",
-            text: "Selecciona un producto para continuar la compra",
-            icon: "error", 
-            confirmButtonText: "Aceptar",
-        }) 
-    } else{
-        location.href = "compra.html"
-        finalizarCompra()
     }
 })
-}
-
-if(vaciarCarrito){
-vaciarCarrito.addEventListener ("click", () =>{
-    carrito.length = []
-    verCarrito()
-})
-}
 
 function añadirProducto(id){
     const existe = carrito.some(element => element.id === id)
@@ -316,9 +290,7 @@ function añadirProducto(id){
 
 const verCarrito = () => {
     const modalBody = document.querySelector(".modal .modal-body")
-    
     if(modalBody){
-
     modalBody.innerHTML = "" //Esto evita que se repitan los productos en el modal del carrito
     carrito.forEach((element) => {
         const {id, nombre, precio, img, cantidad} = element
@@ -342,7 +314,6 @@ const verCarrito = () => {
         <p class="text-center text-primary parrafo"> ¡Tu carrito está vacío! </p>
         `
     } 
-
     carritoContenedor.textContent = carrito.length
 
     if(precioTotal){
@@ -355,10 +326,6 @@ function quitarProducto(id){
     const productoId = id
     carrito = carrito.filter((producto) => producto.id !== productoId)
     verCarrito()
-}
-
-function saveStorage(){
-    localStorage.setItem("carrito", JSON.stringify(carrito))
 }
 
 function finalizarCompra(){
@@ -379,7 +346,6 @@ function finalizarCompra(){
         `
         listaCompra.appendChild("row")
     })
-
     totalProceso.innerText = carrito.reduce((acc, element) => acc + element.cantidad * element.precio, 0)
 }
 
