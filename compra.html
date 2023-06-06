@@ -9,8 +9,8 @@
         integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css" />
 
-    <link rel="stylesheet" href="estilos.css" />
-    <link rel="stylesheet" href="spinner.css" />
+    <link rel="stylesheet" href="./styles/styles.css" />
+    <link rel="stylesheet" href="./styles/spinner.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet" />
@@ -39,15 +39,15 @@
         </nav>
     </header>
 
-    <button id="activarFuncion" class="btn btn-secondary boton mt-2">¡Click!</button>
+    <button id="activarFuncion" class="btn btn-secondary boton mt-2">Tus productos</button>
 
     <main>
         <div class="container">
             <div class="row mt-3">
                 <div class="col">
                     <h2 class="d-flex justify-content-center mb-3">Finalizar Compra</h2>
-                    <form id="procesar-pago" method="POST">
-                        <div class="form-group row">
+                    <div id="procesar-pago" method="POST">
+                        <!--<div class="form-group row">
                             <label for="cliente" class="col-12 col-md-2 col-form-label h2">Nombre y Apellido</label>
                             <div class="col-12 col-md-10">
                                 <input type="text" class="form-control" id="cliente"
@@ -59,13 +59,15 @@
                             <div class="col-12 col-md-10">
                             <input type="text"  id="correo" class="form-control" placeholder="Ingrese su correo" name="email.id" id="email.id">
                             </div>
-                        </div>
+                        </div>-->
 
                         <div id="carrito" class="form-group table-responsive">
                             <table class="table" id="lista-compra">
                                 <thead>
                                     <tr>
-                                        <th scope="col">Imagen</th>
+                                        <!--<th colspan="4" scope="col" class="text-right">TOTAL</th> 
+                                        <p id="totalProceso"></p>-->
+                                        <th scope="col"></th>
                                         <th scope="col">Nombre</th>
                                         <th scope="col">Precio</th>
                                         <th scope="col">Cantidad</th>
@@ -78,26 +80,27 @@
                                         <p id="totalProceso"></p>
                                     </th>
                                 </tr>
-
+                                </tbody>
                             </table>
                         </div>
-
-                        <div class="row justify-content-center d-none" id="spinner">
-                            <div class="spinner">
-                                <div class="dot1"></div>
-                                <div class="dot2"></div>
+                        <div class="d-none" id="spinner">
+                            <div class="sk-folding-cube">
+                                <div class="sk-cube1 sk-cube"></div>
+                                <div class="sk-cube2 sk-cube"></div>
+                                <div class="sk-cube4 sk-cube"></div>
+                                <div class="sk-cube3 sk-cube"></div>
                             </div>
-                        </div>
-
+                        </div>    
                         <div class="row justify-content-between">
                             <div class="col-md-4 mb-2">
                                 <a href="./index.html" class="btn btn-info btn-block">Continuar compra</a>
                             </div>
                             <div class="col-xs-12 col-md-4">
-                                 <input type="submit" class="btn btn-success btn-block" id="button" value="Finalizar compra" >
+                                 <input type="submit" class="btn btn-success btn-block" id="button" value="Finalizar compra">
+                                 <!--<a link="https://www.mercadopago.com.ar/"></a>-->
                             </div>
                         </div>
-                    </form>
+                    </div>
                 </div>
             </div>
         </div>

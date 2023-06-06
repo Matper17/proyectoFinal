@@ -33,3 +33,6 @@ body{
     margin-left: 22px;
     margin-right: 10px;
 }
+.boton{
+    opacity: 0;
+}
